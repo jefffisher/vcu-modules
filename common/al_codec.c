@@ -377,6 +377,8 @@ int al5_codec_set_up(struct al5_codec_desc *codec, struct platform_device *pdev,
 		err = -ENODEV;
 		goto fail;
 	}
+	else
+		printk("%s: Got resource\n", __FUNCTION__);
 
 	irq = platform_get_irq(pdev, 0);
 	if (irq < 0) {
@@ -384,6 +386,8 @@ int al5_codec_set_up(struct al5_codec_desc *codec, struct platform_device *pdev,
 		err = irq;
 		goto fail;
 	}
+	else
+		printk("%s: Got IRQ\n", __FUNCTION__);
 
 	codec->regs = devm_ioremap_nocache(&pdev->dev,
 					   res->start, resource_size(res));
@@ -394,6 +398,8 @@ int al5_codec_set_up(struct al5_codec_desc *codec, struct platform_device *pdev,
 		err = PTR_ERR(codec->regs);
 		goto fail;
 	}
+	else
+		printk("%s: Mapped registers\n", __FUNCTION__);
 
 	mem_node = of_parse_phandle(pdev->dev.of_node, "xlnx,dedicated-mem", 0);
 	if (mem_node) {
@@ -413,6 +419,8 @@ int al5_codec_set_up(struct al5_codec_desc *codec, struct platform_device *pdev,
 	}
 	of_node_put(mem_node);
 
+	printk("%s: Done picking memory\n", __FUNCTION__);
+
 	config.cmd_base = (unsigned long)codec->regs + MAILBOX_CMD;
 	config.cmd_size = MAILBOX_SIZE;
 	config.status_base = (unsigned long)codec->regs + MAILBOX_STATUS;
@@ -424,6 +432,8 @@ int al5_codec_set_up(struct al5_codec_desc *codec, struct platform_device *pdev,
 		dev_err(&pdev->dev, "Can't create interface with mcu");
 		goto fail;
 	}
+	else
+		printk("%s: Created interface with mcu\n", __FUNCTION__);
 
 	al5_group_init(&codec->users_group, mcu, max_users_nb, codec->device);
 
@@ -432,6 +442,8 @@ int al5_codec_set_up(struct al5_codec_desc *codec, struct platform_device *pdev,
 		dev_err(&pdev->dev, "icache failed to be allocated");
 		goto fail;
 	}
+	else
+		printk("%s: Allocated icache\n", __FUNCTION__);
 
 	err = devm_request_threaded_irq(codec->device,
 					irq,
@@ -443,8 +455,11 @@ int al5_codec_set_up(struct al5_codec_desc *codec, struct platform_device *pdev,
 			irq, err);
 		goto free_mcu_caches;
 	}
+	else
+		printk("%s: Requested IRQ\n", __FUNCTION__);
 
 	platform_set_drvdata(pdev, codec);
+	printk("%s: Done\n", __FUNCTION__);
 
 	return 0;
 
