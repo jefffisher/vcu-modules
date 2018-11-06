@@ -227,12 +227,17 @@ static int al5e_probe(struct platform_device *pdev)
 			     GFP_KERNEL);
 	if (codec == NULL)
 		return -ENOMEM;
+	else
+		printk("%s: Allocation successful\n", __FUNCTION__);
 
 	err = al5_codec_set_up(codec, pdev, max_users_nb);
 	if (err) {
 		dev_err(&pdev->dev, "Failed to setup codec");
 		return err;
 	}
+	else
+		printk("%s: Setup successful\n", __FUNCTION__);
+
 	err = al5_codec_set_firmware(codec, AL5E_FIRMWARE,
 				     AL5E_BOOTLOADER_FIRMWARE);
 	if (err) {
@@ -240,12 +245,18 @@ static int al5e_probe(struct platform_device *pdev)
 		al5_codec_tear_down(codec);
 		return err;
 	}
+	else
+		printk("%s: Firmware setup successful\n", __FUNCTION__);
+
 	err = al5e_setup_codec_cdev(codec, current_minor);
 	if (err) {
 		dev_err(&pdev->dev, "Failed to setup cdev");
 		al5_codec_tear_down(codec);
 		return err;
 	}
+	else
+		printk("%s: Allocation successful\n", __FUNCTION__);
+	
 	codec->minor = current_minor;
 	++current_minor;
 
