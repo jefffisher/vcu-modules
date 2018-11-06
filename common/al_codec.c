@@ -177,17 +177,20 @@ static int setup_and_start_mcu(struct al5_codec_desc *codec,
 
 static int alloc_mcu_caches(struct al5_codec_desc *codec)
 {
+	printk("%s: Begin\n", __FUNCTION__);
 	/* alloc the icache and the dcache */
 	codec->icache = al5_alloc_dma(codec->device, AL5_ICACHE_SIZE);
 	if (!codec->icache)
 		return -ENOMEM;
+	else
+		printk("%s: Allocated %d bytes of icache\n", AL5_ICACHE_SIZE);
 
 	/* dcache map base addr */
 
 	codec->dcache_base_addr = 0;
 
 	al5_writel(codec->icache->dma_handle >> 32, AXI_ADDR_OFFSET_IP);
-	setup_info("icache phy is at %p", (void *)codec->icache->dma_handle);
+	printk("%s: icache phy is at %p", __FUNCTION__, (void *)codec->icache->dma_handle);
 
 	return 0;
 }

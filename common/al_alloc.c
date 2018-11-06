@@ -38,7 +38,12 @@ struct al5_dma_buffer *al5_alloc_dma(struct device *dev, size_t size)
 			GFP_KERNEL);
 
 	if (!buf)
+	{
+		printk("%s: Buffer == NULL\n", __FUNCTION__);
 		return NULL;
+	}
+	else
+		printk("%s: Buffer != NULL\n", __FUNCTION__);
 
 	buf->size = size;
 	buf->cpu_handle = dma_alloc_coherent(dev, buf->size,
@@ -49,6 +54,8 @@ struct al5_dma_buffer *al5_alloc_dma(struct device *dev, size_t size)
 		kfree(buf);
 		return NULL;
 	}
+	else
+		printk("%s: Allocation successful\n", __FUNCTION__);
 
 	return buf;
 }
