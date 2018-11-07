@@ -55,7 +55,7 @@ struct al5_dma_buffer *al5_alloc_dma(struct device *dev, size_t size)
 		return NULL;
 	}
 	else
-		printk("%s: Allocation successful\n", __FUNCTION__);
+		printk("%s: Successfully allocated %d bytes at %p\n", __FUNCTION__, size, buf->cpu_handle);
 
 	return buf;
 }
