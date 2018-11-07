@@ -181,7 +181,10 @@ static int alloc_mcu_caches(struct al5_codec_desc *codec)
 	/* alloc the icache and the dcache */
 	codec->icache = al5_alloc_dma(codec->device, AL5_ICACHE_SIZE);
 	if (!codec->icache)
+	{
+		printk("%s: Failed to allocate icache\n");
 		return -ENOMEM;
+	}
 	else
 		printk("%s: Allocated %d bytes of icache\n", AL5_ICACHE_SIZE);
 
