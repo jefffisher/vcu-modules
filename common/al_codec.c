@@ -189,7 +189,7 @@ static int alloc_mcu_caches(struct al5_codec_desc *codec)
 		printk("%s: Allocated %d bytes of icache\n", __FUNCTION__, AL5_ICACHE_SIZE);
 
 	/* dcache map base addr */
-	printk("%s: codec->dcache_base_addr = 0\n", __FUNCTION__)
+	printk("%s: codec->dcache_base_addr = 0\n", __FUNCTION__);
 	codec->dcache_base_addr = 0;
 
 	al5_writel(codec->icache->dma_handle >> 32, AXI_ADDR_OFFSET_IP);
